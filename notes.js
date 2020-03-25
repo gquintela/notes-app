@@ -1,7 +1,7 @@
 const fs = require("fs");
 const chalk = require("chalk");
 
-const addNote = function(title, body) {
+const addNote = (title, body) => {
   const notes = loadNotes();
   if (notes[title] === undefined) {
     notes[title] = body;
@@ -12,13 +12,13 @@ const addNote = function(title, body) {
       chalk.red.bold.inverse(
         "Error: the note '",
         title,
-        "' exists, please delete it before adding a new body. \nAdding note aborted."
+        "'   exists, please delete it before adding a new body. \nAdding note aborted."
       )
     );
   }
 };
 
-const removeNote = function(title) {
+const removeNote = title => {
   const notes = loadNotes();
   if (notes[title] === undefined) {
     console.log(
@@ -36,7 +36,7 @@ const removeNote = function(title) {
   }
 };
 
-const listNotes = function() {
+const listNotes = () => {
   const notes = loadNotes();
   const notesArray = Object.keys(notes);
   notesArray.forEach(element => {
@@ -44,7 +44,7 @@ const listNotes = function() {
   });
 };
 
-const readNote = function(title) {
+const readNote = title => {
   notes = loadNotes();
   if (notes[title] === undefined) {
     console.log(chalk.red.bold("note", title, "didn't found."));
@@ -54,18 +54,18 @@ const readNote = function(title) {
   }
 };
 
-const deleteAllNotes = function() {
+const deleteAllNotes = () => {
   notes = {};
   saveNotes(notes);
   console.log(chalk.green.bold.inverse("All notes deleted."));
 };
 
 // aux functions  //////////////////////////////////////////
-const saveNotes = function(notes) {
+const saveNotes = notes => {
   fs.writeFileSync("notes.json", JSON.stringify(notes));
 };
 
-const loadNotes = function() {
+const loadNotes = () => {
   try {
     const dataBuffer = fs.readFileSync("notes.json");
     return JSON.parse(dataBuffer.toString());
